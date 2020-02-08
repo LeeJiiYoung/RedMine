@@ -1,0 +1,32 @@
+﻿@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+	ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>Hello from our View Template!</p>
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title></title>
+	<script>
+		$(function () {
+			$('.datetimepicker').datetimepicker({
+				lang: 'ko',
+				format: 'Y-m-d H:i'
+			});
+		});
+	</script>
+</head>
+<body>
+	<div>
+		<input type="text" name="test1" id="text1" value="" class="datetimepicker" />
+	</div>
+</body>
+</html>
