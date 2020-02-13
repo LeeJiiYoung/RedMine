@@ -1,7 +1,12 @@
 {
   "ExpandedNodes": [
     "",
-    "\\RedMine"
+    "\\RedMine",
+    "\\RedMine\\Controllers",
+    "\\RedMine\\Models",
+    "\\RedMine\\Scripts",
+    "\\RedMine\\Views",
+    "\\RedMine\\Views\\RedMine"
   ],
   "SelectedNode": "\\RedMine.sln",
   "PreviewInSolutionExplorer": false

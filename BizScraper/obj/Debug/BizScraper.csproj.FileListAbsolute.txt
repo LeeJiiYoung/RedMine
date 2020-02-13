@@ -1,0 +1,12 @@
+C:\Users\LEEJIYOUNG\Desktop\BabyShark\BizScraper\bin\Debug\BizScraper.dll.config
+C:\Users\LEEJIYOUNG\Desktop\BabyShark\BizScraper\bin\Debug\BizScraper.dll
+C:\Users\LEEJIYOUNG\Desktop\BabyShark\BizScraper\bin\Debug\BizScraper.pdb
+C:\Users\LEEJIYOUNG\Desktop\BabyShark\BizScraper\bin\Debug\Common.Logging.dll
+C:\Users\LEEJIYOUNG\Desktop\BabyShark\BizScraper\bin\Debug\NLog.dll
+C:\Users\LEEJIYOUNG\Desktop\BabyShark\BizScraper\bin\Debug\NLog.Telegram.dll
+C:\Users\LEEJIYOUNG\Desktop\BabyShark\BizScraper\bin\Debug\NLog.xml
+C:\Users\LEEJIYOUNG\Desktop\BabyShark\BizScraper\obj\Debug\BizScraper.csprojAssemblyReference.cache
+C:\Users\LEEJIYOUNG\Desktop\BabyShark\BizScraper\obj\Debug\BizScraper.csproj.CoreCompileInputs.cache
+C:\Users\LEEJIYOUNG\Desktop\BabyShark\BizScraper\obj\Debug\BizScraper.csproj.CopyComplete
+C:\Users\LEEJIYOUNG\Desktop\BabyShark\BizScraper\obj\Debug\BizScraper.dll
+C:\Users\LEEJIYOUNG\Desktop\BabyShark\BizScraper\obj\Debug\BizScraper.pdb

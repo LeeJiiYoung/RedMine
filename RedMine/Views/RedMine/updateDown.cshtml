@@ -16,13 +16,17 @@
     <link rel="stylesheet" href="~/Content/bootstrap-datepicker.min.css"/>
 </head>
 <body>
-    <div class='input-group date' id='datetimepicker1'>
-        <input type='text' class="form-control" />
-        <span class="input-group-addon">
-            <span class="glyphicon glyphicon-calendar"></span>
-        </span>
-    </div>
-    <button id="down" type="submit"></button>
+    <form action="/api/Job/updateDownTxt" method="post">
+        <div class='input-group date' id='datetimepicker1'>
+            <input type='text' class="form-control" name="datetimepicker1"/>
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+        <div class="button">
+            <button id="down" type="submit">다운로드하기</button>
+        </div>
+    </form>
 </body>
 </html>
 @section scripts{
