@@ -1,46 +1,88 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Web;
-using System.Web.Mvc;
-
+using System.Web.Http;
+using BizScraper;
 namespace RedMine.Controllers
 {
-    public class RedMineController : Controller
+    public class RedMineController : ApiController
     {
-
-        [HttpPost]
-
-		//public string Welcome()
-		//{
-		//	return "This is the Welcome action method...";
-		//}
-
-		public ActionResult Welcome(string name, int numTimes = 1)
-		{
-			ViewBag.Message = "Hello " + name;
-			ViewBag.NumTimes = numTimes;
-
-			return View();
-		}
-
-		public ActionResult updateDown()
-		{
-			return View();
-		}
-
-        public DataTable updateDownTxt(string date)
+        // GET api/<controller>
+        [ActionName("d")]
+        public IEnumerable<string> Get()
         {
-            DataTable dt = new DataTable();
-            string url = "http://redmine.ebizway.co.kr:8081/redmine/login";
-            string postData = "utf8=%E2%9C%93&authenticity_token=JWhuPr1m97JAE%2F%2B7gPn%2FiMWQObWuRjugTBNIgkDldivrTmuaQD56wYi7pDB3Dnhl1qtQHqj615caqUGJSlWQAw%3D%3D&username=jylee&password=8282&login=%EB%A1%9C%EA%B7%B8%EC%9D%B8+%C2%BB";
-            HtmlAgilityPack.HtmlWeb web = new HtmlAgilityPack.HtmlWeb();
-            HtmlAgilityPack.HtmlDocument doc = web.Load(url, postData);
+            return new string[] { "value1", "value2" };
+        }
+
+        // GET api/<controller>/5
+        public string Get(int id)
+        {
+            return "value";
+        }
+
+        // POST api/<controller>
+        public void Post([FromBody]string value)
+        {
+        }
+
+        // PUT api/<controller>/5
+        public void Put(int id, [FromBody]string value)
+        {
+        }
+
+        // DELETE api/<controller>/5
+        public void Delete(int id)
+        {
+        }
+
+        [HttpGet]
+        public string Login()
+        {
+            try
+            {
+                Scraper scraper = new Scraper();
+                string url = "";
+                url = "http://redmine.ebizway.co.kr:8081/redmine/login?back_url=http%3A%2F%2Fredmine.ebizway.co.kr%3A8081%2Fredmine%2F";
+                scraper.Go(url);
+                Cookie cookie = scraper.Cookies["_redmine_session"];
+                string csrfToken = Regex.Match(scraper.Html, "<meta name=\\\"csrf-token\\\" content=\\\"(?<csrfToken>.*)\\\"").Groups["csrfToken"].Value;
+                url = "http://redmine.ebizway.co.kr:8081/redmine/login";
+                string postData = "utf8=%E2%9C%93&authenticity_token=" + HttpUtility.UrlEncode(csrfToken) + "&back_url=http%3A%2F%2Fredmine.ebizway.co.kr%3A8081%2Fredmine%2F&username=jylee&password=8282&login=%EB%A1%9C%EA%B7%B8%EC%9D%B8+%C2%BB";
+
+                scraper.Go(url, postData);
+
+                scraper.Go("http://redmine.ebizway.co.kr:8081/redmine/");
+                if (scraper.Html.Contains("주-이비즈웨이-레드마인-관리시스템입니다"))
+                {
+                    return "로그인 성공";
+                }
+                else
+                {
+                    return "로그인 실패";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
             
-            return dt;
+        }
+        [HttpGet]
+        public void updateDownTxt()
+        {
+            Login();
+            string url = "http://redmine.ebizway.co.kr:8081/redmine/projects/bf-erp-20131030/roadmap";
+            Scraper scraper = new Scraper();
+            scraper.Referer= "http://redmine.ebizway.co.kr:8081/redmine/projects/bf-erp-20131030?jump=welcome";
+            
+            scraper.Go(url);
+
+            return;
         }
     }
 }

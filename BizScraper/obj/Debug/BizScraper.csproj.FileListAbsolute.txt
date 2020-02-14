@@ -10,3 +10,14 @@ C:\Users\LEEJIYOUNG\Desktop\BabyShark\BizScraper\obj\Debug\BizScraper.csproj.Cor
 C:\Users\LEEJIYOUNG\Desktop\BabyShark\BizScraper\obj\Debug\BizScraper.csproj.CopyComplete
 C:\Users\LEEJIYOUNG\Desktop\BabyShark\BizScraper\obj\Debug\BizScraper.dll
 C:\Users\LEEJIYOUNG\Desktop\BabyShark\BizScraper\obj\Debug\BizScraper.pdb
+C:\Users\HOUSE\Source\Repos\RedMine\BizScraper\bin\Debug\BizScraper.dll.config
+C:\Users\HOUSE\Source\Repos\RedMine\BizScraper\bin\Debug\BizScraper.dll
+C:\Users\HOUSE\Source\Repos\RedMine\BizScraper\bin\Debug\BizScraper.pdb
+C:\Users\HOUSE\Source\Repos\RedMine\BizScraper\bin\Debug\Common.Logging.dll
+C:\Users\HOUSE\Source\Repos\RedMine\BizScraper\bin\Debug\NLog.dll
+C:\Users\HOUSE\Source\Repos\RedMine\BizScraper\bin\Debug\NLog.Telegram.dll
+C:\Users\HOUSE\Source\Repos\RedMine\BizScraper\bin\Debug\NLog.xml
+C:\Users\HOUSE\Source\Repos\RedMine\BizScraper\obj\Debug\BizScraper.csprojAssemblyReference.cache
+C:\Users\HOUSE\Source\Repos\RedMine\BizScraper\obj\Debug\BizScraper.csproj.CopyComplete
+C:\Users\HOUSE\Source\Repos\RedMine\BizScraper\obj\Debug\BizScraper.dll
+C:\Users\HOUSE\Source\Repos\RedMine\BizScraper\obj\Debug\BizScraper.pdb
