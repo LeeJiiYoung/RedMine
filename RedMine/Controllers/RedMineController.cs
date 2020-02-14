@@ -47,17 +47,26 @@ namespace RedMine.Controllers
             {
                 Scraper scraper = new Scraper();
                 string url = "";
-                url = "http://redmine.ebizway.co.kr:8081/redmine/login?back_url=http%3A%2F%2Fredmine.ebizway.co.kr%3A8081%2Fredmine%2F";
+				CookieContainer container = new CookieContainer();
+				url = "http://redmine.ebizway.co.kr:8081/redmine/login?back_url=http%3A%2F%2Fredmine.ebizway.co.kr%3A8081%2Fredmine%2F";
                 scraper.Go(url);
                 Cookie cookie = scraper.Cookies["_redmine_session"];
-                string csrfToken = Regex.Match(scraper.Html, "<meta name=\\\"csrf-token\\\" content=\\\"(?<csrfToken>.*)\\\"").Groups["csrfToken"].Value;
+				scraper.Cookies.Add(cookie);
+				string csrfToken = Regex.Match(scraper.Html, "<meta name=\\\"csrf-token\\\" content=\\\"(?<csrfToken>.*)\\\"").Groups["csrfToken"].Value;
                 url = "http://redmine.ebizway.co.kr:8081/redmine/login";
                 string postData = "utf8=%E2%9C%93&authenticity_token=" + HttpUtility.UrlEncode(csrfToken) + "&back_url=http%3A%2F%2Fredmine.ebizway.co.kr%3A8081%2Fredmine%2F&username=jylee&password=8282&login=%EB%A1%9C%EA%B7%B8%EC%9D%B8+%C2%BB";
-
                 scraper.Go(url, postData);
 
                 scraper.Go("http://redmine.ebizway.co.kr:8081/redmine/");
-                if (scraper.Html.Contains("주-이비즈웨이-레드마인-관리시스템입니다"))
+				cookie = scraper.Cookies["_redmine_session"];
+				scraper.Cookies.Add(cookie);
+				url = "http://redmine.ebizway.co.kr:8081/redmine/projects/bf-erp-20131030?jump=welcome";
+				scraper.Go(url);
+				cookie = scraper.Cookies["_redmine_session"];
+				scraper.Cookies.Add(cookie);
+				scraper.Go("http://redmine.ebizway.co.kr:8081/redmine/projects/bf-erp-20131030/roadmap");
+				string version = Regex.Match(scraper.Html, "비젬_2020-02-19_정기업데이트\" href=\"/redmine/versions/(?<version>.*)\"").Groups["version"].Value;
+				if (scraper.Html.Contains("주-이비즈웨이-레드마인-관리시스템입니다"))
                 {
                     return "로그인 성공";
                 }
@@ -75,13 +84,13 @@ namespace RedMine.Controllers
         [HttpGet]
         public void updateDownTxt()
         {
-            Login();
-            string url = "http://redmine.ebizway.co.kr:8081/redmine/projects/bf-erp-20131030/roadmap";
-            Scraper scraper = new Scraper();
-            scraper.Referer= "http://redmine.ebizway.co.kr:8081/redmine/projects/bf-erp-20131030?jump=welcome";
-            
+			Scraper scraper = new Scraper();
+			Login();
+            string url = "http://redmine.ebizway.co.kr:8081/redmine/projects/bf-erp-20131030?jump=welcome";
             scraper.Go(url);
-
+			Cookie cookie = scraper.Cookies["_redmine_session"];
+			scraper.Cookies.Add(cookie);
+			scraper.Go("http://redmine.ebizway.co.kr:8081/redmine/projects/bf-erp-20131030/roadmap");
             return;
         }
     }
