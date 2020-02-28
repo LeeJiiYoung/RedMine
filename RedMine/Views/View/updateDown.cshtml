@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>Hello from our View Template!</p>
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title></title>
+    <link rel="stylesheet" href="~/Content/bootstrap-datepicker.css" />
+    <link rel="stylesheet" href="~/Content/bootstrap-datepicker.min.css"/>
+</head>
+<body>
+    <form action="/api/RedMine/updateDownTxt" method="post">
+        <div class='input-group date' id='divdatetimepicker1'>
+            <input type='text' class="form-control" id="datetimepicker1" name="datetimepicker1"/>
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+        <input type="text" id="id" name="id" placeholder="아이디" />
+        <input type="password" id="pw" name="pw" placeholder="비밀번호"/>
+        <div class="button">
+            <button id="down" type="submit">다운로드하기</button>
+        </div>
+    </form>
+</body>
+</html>
+@section scripts{
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.ko.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#datetimepicker1").datepicker({
+                format: 'yyyy-mm-dd',
+                language: 'ko'
+            }
+            );
+        });
+    </script>
+}
