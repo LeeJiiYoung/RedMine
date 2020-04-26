@@ -57,3 +57,15 @@ C:\Users\JYLEE\Source\Repos\RedMine3\BizScraper\obj\Debug\BizScraper.csproj.Core
 C:\Users\JYLEE\Source\Repos\RedMine3\BizScraper\obj\Debug\BizScraper.csproj.CopyComplete
 C:\Users\JYLEE\Source\Repos\RedMine3\BizScraper\obj\Debug\BizScraper.dll
 C:\Users\JYLEE\Source\Repos\RedMine3\BizScraper\obj\Debug\BizScraper.pdb
+C:\Users\JYLEE\Source\Repos\RedMine4\BizScraper\bin\Debug\BizScraper.dll.config
+C:\Users\JYLEE\Source\Repos\RedMine4\BizScraper\bin\Debug\BizScraper.dll
+C:\Users\JYLEE\Source\Repos\RedMine4\BizScraper\bin\Debug\BizScraper.pdb
+C:\Users\JYLEE\Source\Repos\RedMine4\BizScraper\bin\Debug\Common.Logging.dll
+C:\Users\JYLEE\Source\Repos\RedMine4\BizScraper\bin\Debug\NLog.dll
+C:\Users\JYLEE\Source\Repos\RedMine4\BizScraper\bin\Debug\NLog.Telegram.dll
+C:\Users\JYLEE\Source\Repos\RedMine4\BizScraper\bin\Debug\NLog.xml
+C:\Users\JYLEE\Source\Repos\RedMine4\BizScraper\obj\Debug\BizScraper.csprojAssemblyReference.cache
+C:\Users\JYLEE\Source\Repos\RedMine4\BizScraper\obj\Debug\BizScraper.csproj.CoreCompileInputs.cache
+C:\Users\JYLEE\Source\Repos\RedMine4\BizScraper\obj\Debug\BizScraper.csproj.CopyComplete
+C:\Users\JYLEE\Source\Repos\RedMine4\BizScraper\obj\Debug\BizScraper.dll
+C:\Users\JYLEE\Source\Repos\RedMine4\BizScraper\obj\Debug\BizScraper.pdb
