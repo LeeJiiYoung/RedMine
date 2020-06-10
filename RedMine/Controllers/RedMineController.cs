@@ -132,7 +132,7 @@ namespace RedMine.Controllers
 				//					   + "&t%5B%5D=spent_hours"
 				//					   + "&t%5B%5D=";
 
-				version = "552";
+				//version = "552"; 테스트용
 				do
 				{
 					url = "http://redmine.ebizway.co.kr:8081/redmine/projects/bf-erp-20131030/issues" +
@@ -209,16 +209,21 @@ namespace RedMine.Controllers
 					page++;
 				}
 				while (isLastPage == false);
-				
-				
-				
-				url = "";
+
+                //* A,B,C 순서대로 정렬하는 부분 *//
+                새기능어레이 = new JArray(새기능어레이.OrderBy(obj => (string)obj["subject"]));
+                지원어레이 = new JArray(지원어레이.OrderBy(obj => (string)obj["subject"]));
+                결함어레이 = new JArray(결함어레이.OrderBy(obj => (string)obj["subject"]));
+                기타어레이 = new JArray(결함어레이.OrderBy(obj => (string)obj["subject"]));
+                url = "";
                 
                 string textValue = "";
                 string gbn = "";
+
                 for (int 새기능개수 = 0; 새기능개수 < 새기능어레이.Count; 새기능개수++)
                 {
-                    textValue += gbn + 새기능어레이[새기능개수]["tracker"] + " #" + 새기능어레이[새기능개수]["id"] + ": " + HttpUtility.HtmlDecode(새기능어레이[새기능개수]["subject"].ToString());
+					
+					textValue += gbn + 새기능어레이[새기능개수]["tracker"] + " #" + 새기능어레이[새기능개수]["id"] + ": " + HttpUtility.HtmlDecode(새기능어레이[새기능개수]["subject"].ToString());
                     gbn = "\r\n\r\n";
                 }
                 for (int 지원개수 = 0; 지원개수 < 지원어레이.Count; 지원개수++)
@@ -228,15 +233,15 @@ namespace RedMine.Controllers
                 }
                 for (int 결함개수 = 0; 결함개수 < 결함어레이.Count; 결함개수++)
                 {
-                    textValue += gbn + 결함어레이[결함개수]["tracker"] + " #" + 결함어레이[결함개수]["id"] + ": " + HttpUtility.HtmlDecode(결함어레이[결함개수]["subject"].ToString());
+					textValue += gbn + 결함어레이[결함개수]["tracker"] + " #" + 결함어레이[결함개수]["id"] + ": " + HttpUtility.HtmlDecode(결함어레이[결함개수]["subject"].ToString());
                     gbn = "\r\n\r\n";
                 }
-				for (int 기타개수 = 0; 기타개수 < 기타어레이.Count; 기타개수++)
-				{
-					textValue += gbn + 기타어레이[기타개수]["tracker"] + " #" + 기타어레이[기타개수]["id"] + ": " + HttpUtility.HtmlDecode(기타어레이[기타개수]["subject"].ToString());
+                for (int 기타개수 = 0; 기타개수 < 기타어레이.Count; 기타개수++)
+                {
+                    textValue += gbn + 기타어레이[기타개수]["tracker"] + " #" + 기타어레이[기타개수]["id"] + ": " + HttpUtility.HtmlDecode(기타어레이[기타개수]["subject"].ToString());
 					gbn = "\r\n\r\n";
 				}
-				string path = @"D:\text.txt";
+				string path = @"C:\Text\text.txt";
 
                 System.IO.File.WriteAllText(path, textValue, Encoding.Default);
 

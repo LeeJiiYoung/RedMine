@@ -69,3 +69,15 @@ C:\Users\JYLEE\Source\Repos\RedMine4\BizScraper\obj\Debug\BizScraper.csproj.Core
 C:\Users\JYLEE\Source\Repos\RedMine4\BizScraper\obj\Debug\BizScraper.csproj.CopyComplete
 C:\Users\JYLEE\Source\Repos\RedMine4\BizScraper\obj\Debug\BizScraper.dll
 C:\Users\JYLEE\Source\Repos\RedMine4\BizScraper\obj\Debug\BizScraper.pdb
+C:\프로젝트\BizScraper\bin\Debug\BizScraper.dll.config
+C:\프로젝트\BizScraper\bin\Debug\BizScraper.dll
+C:\프로젝트\BizScraper\bin\Debug\BizScraper.pdb
+C:\프로젝트\BizScraper\bin\Debug\Common.Logging.dll
+C:\프로젝트\BizScraper\bin\Debug\NLog.dll
+C:\프로젝트\BizScraper\bin\Debug\NLog.Telegram.dll
+C:\프로젝트\BizScraper\bin\Debug\NLog.xml
+C:\프로젝트\BizScraper\obj\Debug\BizScraper.csprojAssemblyReference.cache
+C:\프로젝트\BizScraper\obj\Debug\BizScraper.csproj.CoreCompileInputs.cache
+C:\프로젝트\BizScraper\obj\Debug\BizScraper.csproj.CopyComplete
+C:\프로젝트\BizScraper\obj\Debug\BizScraper.dll
+C:\프로젝트\BizScraper\obj\Debug\BizScraper.pdb
