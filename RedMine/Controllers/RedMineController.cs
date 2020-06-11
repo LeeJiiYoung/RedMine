@@ -17,9 +17,9 @@ namespace RedMine.Controllers
     public class RedMineController : ApiController
     {
         Scraper scraper = new Scraper();
-
-        // GET api/<controller>
-        [ActionName("d")]
+		string csrfToken = "";
+		// GET api/<controller>
+		[ActionName("d")]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
@@ -57,7 +57,7 @@ namespace RedMine.Controllers
                 scraper.Go(url);
                 Cookie cookie = scraper.Cookies["_redmine_session"];
                 scraper.Cookies.Add(cookie);
-                string csrfToken = Regex.Match(scraper.Html, "<meta name=\\\"csrf-token\\\" content=\\\"(?<csrfToken>.*)\\\"").Groups["csrfToken"].Value;
+                csrfToken = Regex.Match(scraper.Html, "<meta name=\\\"csrf-token\\\" content=\\\"(?<csrfToken>.*)\\\"").Groups["csrfToken"].Value;
                 url = "http://redmine.ebizway.co.kr:8081/redmine/login";
                 string postData = "utf8=%E2%9C%93"
                     + "&authenticity_token=" + HttpUtility.UrlEncode(csrfToken)
@@ -311,12 +311,64 @@ namespace RedMine.Controllers
 		{
 			try
 			{
-				//Login();
 				HttpContext req = HttpContext.Current;
 				string id = req.Request.Form["id"];
 				string pw = req.Request.Form["pw"];
-				string date = req.Request.Form["datetimepicker1"];
+				Login(id,pw);
 				
+				string 조회 = "http://redmine.ebizway.co.kr:8081/redmine/projects/bf-erp-20131030/issues?";
+				string querystring = "utf8=✓"
+					+ "&set_filter=1"
+					+ "&f[]=status_id"
+					+ "&op[status_id]=o"
+					+ "&f[]=fixed_version_id"
+					+ "&op[fixed_version_id]=="
+					+ "&v[fixed_version_id][]=565"
+					+ "&f[]="
+					+ "&c[]=project"
+					+ "&c[]=tracker"
+					+ "&c[]=status"
+					+ "&c[]=priority"
+					+ "&c[]=subject"
+					+ "&c[]=author"
+					+ "&c[]=assigned_to"
+					+ "&c[]=start_date"
+					+ "&c[]=due_date"
+					+ "&c[]=updated_on"
+					+ "&c[]=done_ratio"
+					+ "&group_by="
+					+ "&t[]=estimated_hours"
+					+ "&t[]=spent_hours"
+					+ "&t[]=";
+
+				scraper.Go(조회 + HttpUtility.UrlEncode(querystring));
+				//string id = req.Request.Form["id"];
+				//string pw = req.Request.Form["pw"];
+				
+				string date = req.Request.Form["datetimepicker1"];
+
+				List<string> ids = new List<string>();
+				HtmlDocument hDoc = new HtmlDocument();
+				hDoc.LoadHtml(scraper.Html);
+				HtmlNodeCollection hnc = hDoc.DocumentNode.SelectNodes("//table[@class='list issues sort-by-id sort-desc']/tbody/tr");
+				foreach(HtmlNode hn in hnc)
+                {
+					ids.Add(hn.Attributes["id"].Value.ToString().Split('-')[1]);
+                }
+				string url = "http://redmine.ebizway.co.kr:8081/redmine/issues/bulk_update?";
+				string back_url = "/redmine/projects/bf-erp-20131030/issues?query_id=138";
+				string ids_url = "";
+				string postData = "";
+				for(int i = 0; i < ids.Count; i++)
+                {
+					ids_url += "ids[]" + ids[i];
+				}
+				ids_url += "issue[fixed_version_id]" + "";
+
+				postData += "_method=post"
+					+ "&authenticity_token=" + csrfToken;
+
+				scraper.Go(url + HttpUtility.UrlEncode(back_url) + HttpUtility.UrlEncode(ids_url), postData);
 				return "";
 			}
 			catch (Exception ex)
