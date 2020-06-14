@@ -18,33 +18,6 @@ namespace RedMine.Controllers
     {
         Scraper scraper = new Scraper();
 		string csrfToken = "";
-		// GET api/<controller>
-		[ActionName("d")]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<controller>
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
-        }
 
         [HttpPost]
         public string Login(string id, string pw)
@@ -247,57 +220,8 @@ namespace RedMine.Controllers
 
                 byte[] fileBytes = System.IO.File.ReadAllBytes(path);
 
-				//url = "http://redmine.ebizway.co.kr:8081/redmine/projects/bf-erp-20131030/issues?" +
-				//    "utf8=%E2%9C%93" +
-	   //            "&set_filter=1" +
-				//   "&f%5B%5D=status_id" +
-				//   "&op%5Bstatus_id%5D=o" +
-				//   "&f%5B%5D=fixed_version_id" +
-				//   "&op%5Bfixed_version_id%5D=%3D" +
-				//   "&v%5Bfixed_version_id%5D%5B%5D=" + version +
-				//   "&f%5B%5D=" +
-				//   "&c%5B%5D=project" +
-				//   "&c%5B%5D=tracker" +
-				//   "&c%5B%5D=status" +
-				//   "&c%5B%5D=priority" +
-				//   "&c%5B%5D=subject" +
-				//   "&c%5B%5D=author" +
-				//   "&c%5B%5D=assigned_to" +
-				//   "&c%5B%5D=start_date" +
-				//   "&c%5B%5D=due_date" +
-				//   "&c%5B%5D=updated_on" +
-				//   "&c%5B%5D=done_ratio" +
-				//   "&group_by=" +
-				//   "&t%5B%5D=estimated_hours" +
-				//   "&t%5B%5D=spent_hours" +
-				//   "&t%5B%5D=";
 
-				//scraper.Go(url);
-				//HtmlDocument hDoc2 = new HtmlDocument();
-				//hDoc2.LoadHtml(scraper.Html);
-				//HtmlNodeCollection hnc2 = hDoc2.DocumentNode.SelectNodes("//table[@class='list issues sort-by-id sort-desc']/tbody/tr");
-
-				//List<string> issue = new List<string>();
-				//foreach (HtmlNode hn in hnc2)
-				//{
-				//	//다음 목표 버전으로 넘길 일감 번호 담기
-				//	issue.Add(hn.Id.Split('-')[1]);
-				//}
-				//string csrfToken = Regex.Match(scraper.Html, "<meta name=\\\"csrf-token\\\" content=\\\"(?<csrfToken>.*)\\\"").Groups["csrfToken"].Value;
-
-				//scraper.Go("http://redmine.ebizway.co.kr:8081/redmine/issues/context_menu?utf8=%E2%9C%93&authenticity_token=" + csrfToken + "&back_url=%2Fredmine%2Fprojects%2Fbf-erp-20131030%2Fissues%3Fc%255B%255D%3Dproject%26c%255B%255D%3Dtracker%26c%255B%255D%3Dstatus%26c%255B%255D%3Dpriority%26c%255B%255D%3Dsubject%26c%255B%255D%3Dauthor%26c%255B%255D%3Dassigned_to%26c%255B%255D%3Dstart_date%26c%255B%255D%3Ddue_date%26c%255B%255D%3Dupdated_on%26c%255B%255D%3Ddone_ratio%26f%255B%255D%3Dstatus_id%26f%255B%255D%3Dfixed_version_id%26f%255B%255D%3D%26group_by%3D%26op%255Bfixed_version_id%255D%3D%253D%26op%255Bstatus_id%255D%3Do%26set_filter%3D1%26t%255B%255D%3Destimated_hours%26t%255B%255D%3Dspent_hours%26t%255B%255D%3D%26utf8%3D%25E2%259C%2593%26v%255Bfixed_version_id%255D%255B%255D%3D548&ids%5B%5D=35114");
-
-
-				//url = "http://redmine.ebizway.co.kr:8081/redmine/issues/bulk_update?back_url=%2Fredmine%2Fprojects%2Fbf-erp-20131030%2Fissues%3Fc%255B%255D%3Dproject%26c%255B%255D%3Dtracker%26c%255B%255D%3Dstatus%26c%255B%255D%3Dpriority%26c%255B%255D%3Dsubject%26c%255B%255D%3Dauthor%26c%255B%255D%3Dassigned_to%26c%255B%255D%3Dstart_date%26c%255B%255D%3Ddue_date%26c%255B%255D%3Dupdated_on%26c%255B%255D%3Ddone_ratio%26f%255B%255D%3Dstatus_id%26f%255B%255D%3Dfixed_version_id%26f%255B%255D%3D%26group_by%3D%26op%255Bfixed_version_id%255D%3D%253D%26op%255Bstatus_id%255D%3Do%26set_filter%3D1%26t%255B%255D%3Destimated_hours%26t%255B%255D%3Dspent_hours%26t%255B%255D%3D%26utf8%3D%25E2%259C%2593%26v%255Bfixed_version_id%255D%255B%255D%3D548"
-				//	+"&ids%5B%5D=" + "35114"
-				//	+ "&issue%5Bfixed_version_id%5D=549";
-
-				//string postData = "";
-				//postData = "_method=post" +
-				//		  "&authenticity_token=" + csrfToken;
-				//scraper.Go(url, postData);
-
-					return "다운로드완료";
+                return "다운로드완료";
             }
             catch (Exception ex)
             {
