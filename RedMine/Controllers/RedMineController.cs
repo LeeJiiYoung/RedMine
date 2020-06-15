@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -57,7 +58,7 @@ namespace RedMine.Controllers
 
         }
         [HttpPost]
-        public string updateDownTxt()
+        public HttpResponseMessage updateDownTxt()
         {
             try
             {
@@ -133,6 +134,8 @@ namespace RedMine.Controllers
 						"&t%5B%5D=" +
 						"&utf8=%E2%9C%93" +
 						"&v%5Bfixed_version_id%5D%5B%5D=" + version;
+
+				
 					scraper.Encoding = Encoding.GetEncoding("UTF-8");
 					scraper.Go(url);
 					HtmlDocument hDoc = new HtmlDocument();
@@ -219,9 +222,9 @@ namespace RedMine.Controllers
                 System.IO.File.WriteAllText(path, textValue, Encoding.Default);
 
                 byte[] fileBytes = System.IO.File.ReadAllBytes(path);
+				return GetFile();
 
 
-                return "다운로드완료";
             }
             catch (Exception ex)
             {
@@ -300,6 +303,20 @@ namespace RedMine.Controllers
 				throw new Exception(ex.Message);
 			}
 
+		}
+		public HttpResponseMessage GetFile()
+		{
+			string fileName = "text.txt";
+			string localFilePath = @"C:\Text\text.txt";
+
+
+			HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+			response.Content = new StreamContent(new FileStream(localFilePath, FileMode.Open, FileAccess.Read));
+			response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+			response.Content.Headers.ContentDisposition.FileName = fileName;
+			response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/txt");
+
+			return response;
 		}
 	}
 }
