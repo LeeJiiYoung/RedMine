@@ -318,5 +318,19 @@ namespace RedMine.Controllers
 
 			return response;
 		}
+
+		public JObject getVersionCombo()
+        {
+			JObject result = new JObject();
+			scraper.Go("http://redmine.ebizway.co.kr:8081/redmine/projects/bf-erp-20131030/roadmap");
+			HtmlDocument hDoc = new HtmlDocument();
+			hDoc.LoadHtml(scraper.Html);
+			HtmlNodeCollection hnc = hDoc.DocumentNode.SelectNodes("//div[@id='sidebar']/ul/li");
+			foreach(HtmlNode hn in hnc)
+            {
+
+            }
+			return result;
+		}
 	}
 }

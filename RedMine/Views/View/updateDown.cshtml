@@ -47,15 +47,21 @@
 </body>
 </html>
 @section scripts{
+	<script src="~/Scripts/redmine/redmine.js"></script>
     <script src="~/Scripts/bootstrap-datepicker.js"></script>
     <script src="~/Scripts/bootstrap-datepicker.ko.js"></script>
     <script>
         $(document).ready(function () {
+
             $("#datetimepicker1").datepicker({
                 format: 'yyyy-mm-dd',
                 language: 'ko'
             }
-            );
+			);
+
+			$("#dddd").click(function () {
+				cmdSearch();
+			});
         });
     </script>
 }
