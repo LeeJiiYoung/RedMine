@@ -319,13 +319,10 @@ namespace RedMine.Controllers
 			return response;
 		}
 
-		public JObject getVersionCombo()
+		[HttpPost]
+		public JObject getVersionCombo(JObject data)
         {
 			JObject result = new JObject();
-			HttpContext req = HttpContext.Current;
-			string id = req.Request.Form["id"];
-			string pw = req.Request.Form["pw"];
-			Login(id, pw);
 			scraper.Go("http://redmine.ebizway.co.kr:8081/redmine/projects/bf-erp-20131030/roadmap");
 			HtmlDocument hDoc = new HtmlDocument();
 			hDoc.LoadHtml(scraper.Html);
