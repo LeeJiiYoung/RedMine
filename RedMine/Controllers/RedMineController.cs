@@ -190,7 +190,7 @@ namespace RedMine.Controllers
                 새기능어레이 = new JArray(새기능어레이.OrderBy(obj => (string)obj["subject"]));
                 지원어레이 = new JArray(지원어레이.OrderBy(obj => (string)obj["subject"]));
                 결함어레이 = new JArray(결함어레이.OrderBy(obj => (string)obj["subject"]));
-                기타어레이 = new JArray(결함어레이.OrderBy(obj => (string)obj["subject"]));
+                기타어레이 = new JArray(기타어레이.OrderBy(obj => (string)obj["subject"]));
                 url = "";
                 
                 string textValue = "";
@@ -322,6 +322,10 @@ namespace RedMine.Controllers
 		public JObject getVersionCombo()
         {
 			JObject result = new JObject();
+			HttpContext req = HttpContext.Current;
+			string id = req.Request.Form["id"];
+			string pw = req.Request.Form["pw"];
+			Login(id, pw);
 			scraper.Go("http://redmine.ebizway.co.kr:8081/redmine/projects/bf-erp-20131030/roadmap");
 			HtmlDocument hDoc = new HtmlDocument();
 			hDoc.LoadHtml(scraper.Html);
