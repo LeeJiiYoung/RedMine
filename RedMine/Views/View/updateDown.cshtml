@@ -11,6 +11,22 @@
 	<form action="/api/RedMine/updateDownTxt" method="post">
         <table>
             <tr>
+                <td>
+                    <div class="selected">
+                        <select id="version" name="version">
+                            <option id="">다운로드버전</option>
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <div class="selected">
+                        <select id="version2" name="version2">
+                            <option id="">업데이트버전</option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+            @*<tr>
                 <th>
                     <label for="date">날짜선택하기</label>
                 </th>
@@ -22,7 +38,7 @@
                         </span>
                     </div>
                 </td>
-            </tr>
+            </tr>*@
             <tr>
                 <th>
                     <label for="id">아이디</label>
@@ -45,10 +61,11 @@
             <tr>
                 <td colspan="2">
                     <div class="button">
-                        <button id="versionUp" type="button">목표버전 넘기기</button>
+                        <button id="versionUp" type="button">목표버전 조회하기</button>
                     </div>
                 </td>
             </tr>
+
         </table>
 	</form>
 </body>

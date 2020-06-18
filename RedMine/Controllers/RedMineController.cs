@@ -12,6 +12,7 @@ using System.Web;
 using System.Web.Http;
 using BizScraper;
 using HtmlAgilityPack;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 namespace RedMine.Controllers
 {
@@ -77,7 +78,7 @@ namespace RedMine.Controllers
                 Login(id, pw);
                 scraper.Go("http://redmine.ebizway.co.kr:8081/redmine/projects/bf-erp-20131030/roadmap");
                 string version = Regex.Match(scraper.Html, "비젬_" + date + "_정기업데이트\" href=\"/redmine/versions/(?<version>.*)\"").Groups["version"].Value;
-
+                version = req.Request.Form["version"];
                 string url = "";
 				bool isLastPage = false;
 				int page = 1;
@@ -320,18 +321,30 @@ namespace RedMine.Controllers
 		}
 
 		[HttpPost]
-		public JObject getVersionCombo(JObject data)
+		public JArray getVersionCombo(object data)
         {
 			JObject result = new JObject();
+            JArray jarr = new JArray();
+            JObject request = new JObject();
+            request = JsonConvert.DeserializeObject<JObject>(data.ToString());
+            string id = request["id"].ToString();
+            string pw = request["pw"].ToString();
+            Login(id, pw);
 			scraper.Go("http://redmine.ebizway.co.kr:8081/redmine/projects/bf-erp-20131030/roadmap");
 			HtmlDocument hDoc = new HtmlDocument();
 			hDoc.LoadHtml(scraper.Html);
-			HtmlNodeCollection hnc = hDoc.DocumentNode.SelectNodes("//div[@id='sidebar']/ul/li");
+			HtmlNodeCollection hnc = hDoc.DocumentNode.SelectNodes("//h3[@class='version']");
 			foreach(HtmlNode hn in hnc)
             {
-
+                result = new JObject();
+                if (Regex.Match(hn.InnerHtml, "<a.*?>(?<title>.*?)</a>").Groups["title"].Value.Contains("정기업데이트"))
+                {
+                    result["version"] = Regex.Match(hn.InnerHtml, "href=\"/redmine/versions/(?<version>.*?)\"").Groups["version"].Value;
+                    result["title"] = Regex.Match(hn.InnerHtml, "<a.*?>(?<title>.*?)</a>").Groups["title"].Value;
+                    jarr.Add(result);
+                }
             }
-			return result;
+			return jarr;
 		}
 	}
 }
