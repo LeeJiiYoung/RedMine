@@ -10,6 +10,17 @@
 <body>
 	<form action="/api/RedMine/updateDownTxt" method="post">
         <table>
+            <colgroup>
+                <col style="width:auto;" />
+                <col style="width:auto;" />
+            </colgroup>
+            <tr>
+                <td colspan="2" align="center">
+                    <div class="button">
+                        <button id="versionUp" type="button">목표버전 조회하기</button>
+                    </div>
+                </td>
+            </tr>
             <tr>
                 <td>
                     <div class="selected">
@@ -27,18 +38,18 @@
                 </td>
             </tr>
             @*<tr>
-                <th>
-                    <label for="date">날짜선택하기</label>
-                </th>
-                <td>
-                    <div class='input-group date' id='divdatetimepicker1'>
-                        <input type='text' class="form-control" id="datetimepicker1" name="datetimepicker1" />
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                    </div>
-                </td>
-            </tr>*@
+            <th>
+                <label for="date">날짜선택하기</label>
+            </th>
+            <td>
+                <div class='input-group date' id='divdatetimepicker1'>
+                    <input type='text' class="form-control" id="datetimepicker1" name="datetimepicker1" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </td>
+        </tr>*@
             <tr>
                 <th>
                     <label for="id">아이디</label>
@@ -61,11 +72,10 @@
             <tr>
                 <td colspan="2">
                     <div class="button">
-                        <button id="versionUp" type="button">목표버전 조회하기</button>
+                        <button id="versionCommit" type="button">목표버전넘기기</button>
                     </div>
                 </td>
             </tr>
-
         </table>
 	</form>
 </body>
@@ -85,7 +95,11 @@
 
 			$("#versionUp").click(function () {
                 getVersionCombo();
-			});
+            });
+
+            $("#versionCommit").click(function () {
+                versionCommit();
+            });
         });
     </script>
 }

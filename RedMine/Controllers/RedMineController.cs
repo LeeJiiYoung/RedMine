@@ -346,5 +346,66 @@ namespace RedMine.Controllers
             }
 			return jarr;
 		}
+
+		[HttpPost]
+		public string versionUp(object data)
+        {
+			JObject request = new JObject();
+			request = JsonConvert.DeserializeObject<JObject>(data.ToString());
+			string id = request["id"].ToString();
+			string pw = request["pw"].ToString();
+			string version = request["version"].ToString();
+			string version2 = request["version2"].ToString();
+			Login(id, pw);
+			string url = "http://redmine.ebizway.co.kr:8081/redmine/projects/bf-erp-20131030/issues?";
+			string postData = "utf8=✓" +
+						     "&set_filter=1" +
+						     "&f[]=status_id" +
+						     "&op[status_id]=o" +
+						     "&f[]=fixed_version_id" +
+						     "&op[fixed_version_id]==" +
+						     "&v[fixed_version_id][]=" + version +
+						     "&f[]=" +
+						     "&c[]=project" +
+						     "&c[]=tracker" +
+						     "&c[]=status" +
+						     "&c[]=priority" +
+						     "&c[]=subject" +
+						     "&c[]=author" +
+						     "&c[]=assigned_to" +
+						     "&c[]=start_date" +
+						     "&c[]=due_date" +
+						     "&c[]=updated_on" +
+						     "&c[]=done_ratio" +
+						     "&group_by=" +
+						     "&t[]=estimated_hours" +
+						     "&t[]=spent_hours" +
+						     "&t[]=";
+			scraper.Go(url + HttpUtility.UrlEncode(postData));
+			List<string> ids = new List<string>();
+			HtmlDocument hDoc = new HtmlDocument();
+			hDoc.LoadHtml(scraper.Html);
+			HtmlNodeCollection hnc = hDoc.DocumentNode.SelectNodes("//table[@class='list issues sort-by-id sort-desc']/tbody/tr");
+			foreach(HtmlNode hn in hnc)
+            {
+				ids.Add(hn.Attributes["id"].Value.ToString().Split('-')[1]);
+			}
+			url = "http://redmine.ebizway.co.kr:8081/redmine/issues/bulk_update?";
+			string back_url = "/redmine/projects/bf-erp-20131030/issues?c%5B%5D=project&c%5B%5D=tracker&c%5B%5D=status&c%5B%5D=priority&c%5B%5D=subject&c%5B%5D=author&c%5B%5D=assigned_to&c%5B%5D=start_date&c%5B%5D=due_date&c%5B%5D=updated_on&c%5B%5D=done_ratio&f%5B%5D=status_id&f%5B%5D=fixed_version_id&f%5B%5D=&group_by=&op%5Bfixed_version_id%5D=%3D&op%5Bstatus_id%5D=o&set_filter=1&t%5B%5D=estimated_hours&t%5B%5D=spent_hours&t%5B%5D=&utf8=%E2%9C%93&v%5Bfixed_version_id%5D%5B%5D=" + version;
+			string ids_url = "";
+			string post = "";
+			for (int i = 0; i < ids.Count; i++)
+			{
+				ids_url += "&ids[]=" + ids[i];
+			}
+			ids_url += "&issue[fixed_version_id]=" + version2;
+
+			post += "_method=post"
+				+ "&authenticity_token=" + csrfToken;
+
+			url = url + back_url + HttpUtility.UrlEncode(ids_url);
+			scraper.Go(url, post);
+			return "";
+		}
 	}
 }
