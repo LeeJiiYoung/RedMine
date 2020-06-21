@@ -388,23 +388,25 @@ namespace RedMine.Controllers
 			HtmlNodeCollection hnc = hDoc.DocumentNode.SelectNodes("//table[@class='list issues sort-by-id sort-desc']/tbody/tr");
 			foreach(HtmlNode hn in hnc)
             {
-				ids.Add(hn.Attributes["id"].Value.ToString().Split('-')[1]);
-			}
-			url = "http://redmine.ebizway.co.kr:8081/redmine/issues/bulk_update?";
-			string back_url = "/redmine/projects/bf-erp-20131030/issues?c%5B%5D=project&c%5B%5D=tracker&c%5B%5D=status&c%5B%5D=priority&c%5B%5D=subject&c%5B%5D=author&c%5B%5D=assigned_to&c%5B%5D=start_date&c%5B%5D=due_date&c%5B%5D=updated_on&c%5B%5D=done_ratio&f%5B%5D=status_id&f%5B%5D=fixed_version_id&f%5B%5D=&group_by=&op%5Bfixed_version_id%5D=%3D&op%5Bstatus_id%5D=o&set_filter=1&t%5B%5D=estimated_hours&t%5B%5D=spent_hours&t%5B%5D=&utf8=%E2%9C%93&v%5Bfixed_version_id%5D%5B%5D=" + version;
+                ids.Add(hn.Attributes["id"].Value.ToString().Split('-')[1]);
+            }
+            url = "http://redmine.ebizway.co.kr:8081/redmine/issues/bulk_update?back_url=";
+			string back_url = "%2Fredmine%2Fprojects%2Fbf-erp-20131030%2Fissues%3Fc%255B%255D%3Dproject%26c%255B%255D%3Dtracker%26c%255B%255D%3Dstatus%26c%255B%255D%3Dpriority%26c%255B%255D%3Dsubject%26c%255B%255D%3Dauthor%26c%255B%255D%3Dassigned_to%26c%255B%255D%3Dstart_date%26c%255B%255D%3Ddue_date%26c%255B%255D%3Dupdated_on%26c%255B%255D%3Ddone_ratio%26f%255B%255D%3Dstatus_id%26f%255B%255D%3Dfixed_version_id%26f%255B%255D%3D%26group_by%3D%26op%255Bfixed_version_id%255D%3D%253D%26op%255Bstatus_id%255D%3Do%26set_filter%3D1%26t%255B%255D%3Destimated_hours%26t%255B%255D%3Dspent_hours%26t%255B%255D%3D%26utf8%3D%25E2%259C%2593%26v%255Bfixed_version_id%255D%255B%255D%3D" + version;
+
 			string ids_url = "";
-			string post = "";
+            string post = "";
 			for (int i = 0; i < ids.Count; i++)
 			{
-				ids_url += "&ids[]=" + ids[i];
+				ids_url += "&ids%5B%5D=" + ids[i];
 			}
-			ids_url += "&issue[fixed_version_id]=" + version2;
+			ids_url += "&issue%5Bfixed_version_id%5D=" + version2;
 
+			//ids_url = HttpUtility.UrlEncode(ids_url);
+			string p = url + back_url + ids_url;
 			post += "_method=post"
 				+ "&authenticity_token=" + csrfToken;
 
-			url = url + back_url + HttpUtility.UrlEncode(ids_url);
-			scraper.Go(url, post);
+			scraper.Go(p, post);
 			return "";
 		}
 	}
