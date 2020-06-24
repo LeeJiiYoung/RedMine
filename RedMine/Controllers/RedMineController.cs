@@ -235,7 +235,7 @@ namespace RedMine.Controllers
         }
 
 		[HttpPost]
-		public string CloseUpdate()
+		public string CloseUpdate(object data)
 		{
 			try
 			{
@@ -244,59 +244,17 @@ namespace RedMine.Controllers
 				string pw = req.Request.Form["pw"];
 				Login(id,pw);
 				
-				string 조회 = "http://redmine.ebizway.co.kr:8081/redmine/projects/bf-erp-20131030/issues?";
-				string querystring = "utf8=✓"
-					+ "&set_filter=1"
-					+ "&f[]=status_id"
-					+ "&op[status_id]=o"
-					+ "&f[]=fixed_version_id"
-					+ "&op[fixed_version_id]=="
-					+ "&v[fixed_version_id][]=565"
-					+ "&f[]="
-					+ "&c[]=project"
-					+ "&c[]=tracker"
-					+ "&c[]=status"
-					+ "&c[]=priority"
-					+ "&c[]=subject"
-					+ "&c[]=author"
-					+ "&c[]=assigned_to"
-					+ "&c[]=start_date"
-					+ "&c[]=due_date"
-					+ "&c[]=updated_on"
-					+ "&c[]=done_ratio"
-					+ "&group_by="
-					+ "&t[]=estimated_hours"
-					+ "&t[]=spent_hours"
-					+ "&t[]=";
-
-				scraper.Go(조회 + HttpUtility.UrlEncode(querystring));
-				//string id = req.Request.Form["id"];
-				//string pw = req.Request.Form["pw"];
-				
-				string date = req.Request.Form["datetimepicker1"];
-
-				List<string> ids = new List<string>();
+				string url = "http://redmine.ebizway.co.kr:8081/redmine/versions/566/edit";
+				scraper.Go(url);
+				csrfToken = Regex.Match(scraper.Html, "<meta name=\\\"csrf-token\\\" content=\\\"(?<csrfToken>.*)\\\"").Groups["csrfToken"].Value;
 				HtmlDocument hDoc = new HtmlDocument();
 				hDoc.LoadHtml(scraper.Html);
-				HtmlNodeCollection hnc = hDoc.DocumentNode.SelectNodes("//table[@class='list issues sort-by-id sort-desc']/tbody/tr");
-				foreach(HtmlNode hn in hnc)
-                {
-					ids.Add(hn.Attributes["id"].Value.ToString().Split('-')[1]);
-                }
-				string url = "http://redmine.ebizway.co.kr:8081/redmine/issues/bulk_update?";
-				string back_url = "/redmine/projects/bf-erp-20131030/issues?query_id=138";
-				string ids_url = "";
+				string name = hDoc.DocumentNode.SelectSingleNode("//input[@name='version[name]']").InnerText;
+				string description = hDoc.DocumentNode.SelectSingleNode("//input[@name='version[description]']").InnerText;
+				string effective_date = hDoc.DocumentNode.SelectSingleNode("//input[@name='version[effective_date]']").InnerText;
+
+				url = "http://redmine.ebizway.co.kr:8081/redmine/versions/566";
 				string postData = "";
-				for(int i = 0; i < ids.Count; i++)
-                {
-					ids_url += "ids[]" + ids[i];
-				}
-				ids_url += "issue[fixed_version_id]" + "";
-
-				postData += "_method=post"
-					+ "&authenticity_token=" + csrfToken;
-
-				scraper.Go(url + HttpUtility.UrlEncode(back_url) + HttpUtility.UrlEncode(ids_url), postData);
 				return "";
 			}
 			catch (Exception ex)
@@ -348,66 +306,89 @@ namespace RedMine.Controllers
 		}
 
 		[HttpPost]
-		public string versionUp(object data)
+		public void versionUp(object data)
         {
-			JObject request = new JObject();
-			request = JsonConvert.DeserializeObject<JObject>(data.ToString());
-			string id = request["id"].ToString();
-			string pw = request["pw"].ToString();
-			string version = request["version"].ToString();
-			string version2 = request["version2"].ToString();
-			Login(id, pw);
-			string url = "http://redmine.ebizway.co.kr:8081/redmine/projects/bf-erp-20131030/issues?";
-			string postData = "utf8=✓" +
-						     "&set_filter=1" +
-						     "&f[]=status_id" +
-						     "&op[status_id]=o" +
-						     "&f[]=fixed_version_id" +
-						     "&op[fixed_version_id]==" +
-						     "&v[fixed_version_id][]=" + version +
-						     "&f[]=" +
-						     "&c[]=project" +
-						     "&c[]=tracker" +
-						     "&c[]=status" +
-						     "&c[]=priority" +
-						     "&c[]=subject" +
-						     "&c[]=author" +
-						     "&c[]=assigned_to" +
-						     "&c[]=start_date" +
-						     "&c[]=due_date" +
-						     "&c[]=updated_on" +
-						     "&c[]=done_ratio" +
-						     "&group_by=" +
-						     "&t[]=estimated_hours" +
-						     "&t[]=spent_hours" +
-						     "&t[]=";
-			scraper.Go(url + HttpUtility.UrlEncode(postData));
-			List<string> ids = new List<string>();
-			HtmlDocument hDoc = new HtmlDocument();
-			hDoc.LoadHtml(scraper.Html);
-			HtmlNodeCollection hnc = hDoc.DocumentNode.SelectNodes("//table[@class='list issues sort-by-id sort-desc']/tbody/tr");
-			foreach(HtmlNode hn in hnc)
+            JObject request = new JObject();
+            request = JsonConvert.DeserializeObject<JObject>(data.ToString());
+            string id = request["id"].ToString();
+            string pw = request["pw"].ToString();
+            string version = request["version"].ToString();
+            string version2 = request["version2"].ToString();
+            Login(id, pw);
+
+
+            bool isLastPage = false;
+            do
             {
-                ids.Add(hn.Attributes["id"].Value.ToString().Split('-')[1]);
-            }
-            url = "http://redmine.ebizway.co.kr:8081/redmine/issues/bulk_update?back_url=";
-			string back_url = "%2Fredmine%2Fprojects%2Fbf-erp-20131030%2Fissues%3Fc%255B%255D%3Dproject%26c%255B%255D%3Dtracker%26c%255B%255D%3Dstatus%26c%255B%255D%3Dpriority%26c%255B%255D%3Dsubject%26c%255B%255D%3Dauthor%26c%255B%255D%3Dassigned_to%26c%255B%255D%3Dstart_date%26c%255B%255D%3Ddue_date%26c%255B%255D%3Dupdated_on%26c%255B%255D%3Ddone_ratio%26f%255B%255D%3Dstatus_id%26f%255B%255D%3Dfixed_version_id%26f%255B%255D%3D%26group_by%3D%26op%255Bfixed_version_id%255D%3D%253D%26op%255Bstatus_id%255D%3Do%26set_filter%3D1%26t%255B%255D%3Destimated_hours%26t%255B%255D%3Dspent_hours%26t%255B%255D%3D%26utf8%3D%25E2%259C%2593%26v%255Bfixed_version_id%255D%255B%255D%3D" + version;
+                string url = "http://redmine.ebizway.co.kr:8081/redmine/projects/bf-erp-20131030/issues?" +
+					"utf8=%E2%9C%93" +
+					"&set_filter=1" +
+					"&f%5B%5D=status_id" +
+					"&op%5Bstatus_id%5D=o" +
+					"&f%5B%5D=fixed_version_id" +
+					"&op%5Bfixed_version_id%5D=%3D" +
+					"&v%5Bfixed_version_id%5D%5B%5D=" + version + 
+					"&f%5B%5D=" +
+					"&c%5B%5D=project" +
+					"&c%5B%5D=tracker" +
+					"&c%5B%5D=status" +
+					"&c%5B%5D=priority" +
+					"&c%5B%5D=subject" +
+					"&c%5B%5D=author" +
+					"&c%5B%5D=assigned_to" +
+					"&c%5B%5D=start_date" +
+					"&c%5B%5D=due_date" +
+					"&c%5B%5D=updated_on" +
+					"&c%5B%5D=done_ratio" +
+					"&group_by=" +
+					"&t%5B%5D=estimated_hours" +
+					"&t%5B%5D=spent_hours" +
+					"&t%5B%5D=";
+                scraper.Go(url);
 
-			string ids_url = "";
-            string post = "";
-			for (int i = 0; i < ids.Count; i++)
-			{
-				ids_url += "&ids%5B%5D=" + ids[i];
-			}
-			ids_url += "&issue%5Bfixed_version_id%5D=" + version2;
+                csrfToken = Regex.Match(scraper.Html, "<meta name=\\\"csrf-token\\\" content=\\\"(?<csrfToken>.*)\\\"").Groups["csrfToken"].Value;
 
-			//ids_url = HttpUtility.UrlEncode(ids_url);
-			string p = url + back_url + ids_url;
-			post += "_method=post"
-				+ "&authenticity_token=" + csrfToken;
+                List<string> ids = new List<string>();
+                HtmlDocument hDoc = new HtmlDocument();
+                hDoc.LoadHtml(scraper.Html);
+                HtmlNodeCollection hnc = hDoc.DocumentNode.SelectNodes("//table[@class='list issues sort-by-id sort-desc']/tbody/tr");
+                if (hnc == null || hnc.Count == 0)
+                {
+                    isLastPage = true;
+					break;
+                }
 
-			scraper.Go(p, post);
-			return "";
-		}
-	}
+                foreach (HtmlNode hn in hnc)
+                {
+                    ids.Add(hn.Attributes["id"].Value.ToString().Split('-')[1]);
+                }
+                url = "http://redmine.ebizway.co.kr:8081/redmine/issues/bulk_update?back_url=%2Fredmine%2Fprojects%2Fbf-erp-20131030%2Fissues%3Fc%255B%255D%3Dproject%26c%255B%255D%3Dtracker%26c%255B%255D%3Dstatus%26c%255B%255D%3Dpriority%26c%255B%255D%3Dsubject%26c%255B%255D%3Dauthor%26c%255B%255D%3Dassigned_to%26c%255B%255D%3Dstart_date%26c%255B%255D%3Ddue_date%26c%255B%255D%3Dupdated_on%26c%255B%255D%3Ddone_ratio%26f%255B%255D%3Dstatus_id%26f%255B%255D%3Dfixed_version_id%26f%255B%255D%3D%26group_by%3D%26op%255Bfixed_version_id%255D%3D%253D%26op%255Bstatus_id%255D%3Do%26set_filter%3D1%26t%255B%255D%3Destimated_hours%26t%255B%255D%3Dspent_hours%26t%255B%255D%3D%26utf8%3D%25E2%259C%2593%26v%255Bfixed_version_id%255D%255B%255D%3D" + version;
+
+                string ids_url = "";
+                string post = "";
+                for (int i = 0; i < ids.Count; i++)
+                {
+                    ids_url += "&ids%5B%5D=" + ids[i];
+                }
+                ids_url += "&issue%5Bfixed_version_id%5D=" + version2;
+
+                //ids_url = HttpUtility.UrlEncode(ids_url);
+                string p = url + ids_url;
+				post += "_method=post"
+					+ "&authenticity_token=" + Uri.EscapeDataString(csrfToken);
+                try
+                {
+					
+                    scraper.Go(p, post);
+					System.Threading.Thread.Sleep(20000);
+					if(scraper.StatusCode == HttpStatusCode.Found)
+                    {
+
+                    }
+                }
+                catch(Exception ex) { throw new Exception(ex.Message); }
+            } while (isLastPage == false);
+        }
+
+    }
 }
