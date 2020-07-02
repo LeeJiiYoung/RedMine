@@ -17,7 +17,7 @@ namespace RedMine
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "View", action = "UpdateDown", id = UrlParameter.Optional }
+                defaults: new { controller = "View", action = "RedMineStart", id = UrlParameter.Optional }
             );
 
        

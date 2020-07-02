@@ -44,3 +44,23 @@ function versionCommit() {
 
     })
 }
+
+function closeUpdate() {
+    var jsonParameter = {};
+    jsonParameter["id"] = $("#id").val();
+    jsonParameter["pw"] = $("#pw").val();
+    jsonParameter["version"] = $("#version").val();
+    jsonParameter["version2"] = $("#version2").val();
+    var param = JSON.stringify(jsonParameter);
+    $.ajax({
+        type: 'POST',
+        url: '/api/RedMine/CloseUpdate',
+        data: param,
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        success: function (result) {
+
+        }
+
+    })
+}

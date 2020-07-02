@@ -12,5 +12,10 @@ namespace RedMine.Controllers
         {
             return View();
         }
+
+        public ActionResult RedMineStart()
+        {
+            return View();
+        }
     }
 }

@@ -5,38 +5,139 @@
 <head>
     <title></title>
     <link rel="stylesheet" href="~/Content/bootstrap-datepicker.css" />
-    <link rel="stylesheet" href="~/Content/bootstrap-datepicker.min.css"/>
+    <link rel="stylesheet" href="~/Content/bootstrap-datepicker.min.css" />
+    <style>
+        .main-hr {
+            width: 30%;
+            border: none;
+            border-top: 1px solid #c3c3c3;
+        }
+
+        .icon-btn {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #cdcdcd;
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            position: relative;
+            transition: width 0.2s ease-in-out;
+        }
+
+        .add-btn:hover {
+            width: 120px;
+        }
+
+        .add-btn::before,
+        .add-btn::after {
+            transition: width 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+            content: "";
+            position: absolute;
+            height: 4px;
+            width: 10px;
+            top: calc(50% - 2px);
+            background: red;
+        }
+
+        .add-btn::after {
+            right: 14px;
+            overflow: hidden;
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
+        }
+
+        .add-btn::before {
+            left: 14px;
+            border-top-left-radius: 2px;
+            border-bottom-left-radius: 2px;
+        }
+
+        .icon-btn:focus {
+            outline: none;
+        }
+
+        .btn-txt {
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .add-btn:hover::before,
+        .add-btn:hover::after {
+            width: 4px;
+            border-radius: 2px;
+        }
+
+        .add-btn:hover .btn-txt {
+            opacity: 1;
+        }
+
+        .add-icon::after,
+        .add-icon::before {
+            transition: all 0.2s ease-in-out;
+            content: "";
+            position: absolute;
+            height: 20px;
+            width: 2px;
+            top: calc(50% - 10px);
+            background: red;
+            overflow: hidden;
+        }
+
+        .add-icon::before {
+            left: 22px;
+            border-top-left-radius: 2px;
+            border-bottom-left-radius: 2px;
+        }
+
+        .add-icon::after {
+            right: 22px;
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
+        }
+
+        .add-btn:hover .add-icon::before {
+            left: 15px;
+            height: 4px;
+            top: calc(50% - 2px);
+        }
+
+        .add-btn:hover .add-icon::after {
+            right: 15px;
+            height: 4px;
+            top: calc(50% - 2px);
+        }
+
+    </style>
 </head>
 <body>
-	<form action="/api/RedMine/updateDownTxt" method="post">
+    <form action="/api/RedMine/updateDownTxt" method="post">
+        <div class="" style="text-align: center;margin-top:5%">
+            <button class="icon-btn add-btn">
+                <div class="add-icon"></div>
+                <div class="btn-txt">Add</div>
+            </button>
+        </div>
+        <div class="" style="text-align: center; margin-top: 8px;">
+            <button class="icon-btn add-btn">
+                <div class="btn-txt">Remove</div>
+            </button>
+        </div>
+        <div style="text-align: center; margin-top:30px;">
+            <hr class="main-hr" />
+            <button class="icon-btn add-btn">
+                <div class="add-icon"></div>
+                <div class="btn-txt">Add</div>
+            </button>
+            <button class="icon-btn add-btn">
+                <div class="btn-txt">Remove</div>
+            </button>
+        </div>
         <table>
             <colgroup>
                 <col style="width:auto;" />
                 <col style="width:auto;" />
             </colgroup>
-            <tr>
-                <td colspan="2" align="center">
-                    <div class="button">
-                        <button id="versionUp" type="button">목표버전 조회하기</button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="selected">
-                        <select id="version" name="version">
-                            <option id="">다운로드버전</option>
-                        </select>
-                    </div>
-                </td>
-                <td>
-                    <div class="selected">
-                        <select id="version2" name="version2">
-                            <option id="">업데이트버전</option>
-                        </select>
-                    </div>
-                </td>
-            </tr>
+
             @*<tr>
             <th>
                 <label for="date">날짜선택하기</label>
@@ -63,6 +164,29 @@
                 <td><input type="password" id="pw" name="pw" placeholder="비밀번호" /></td>
             </tr>
             <tr>
+                <td colspan="2" align="center">
+                    <div class="button">
+                        <button id="versionUp" type="button">목표버전 조회하기</button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="selected">
+                        <select id="version" name="version">
+                            <option id="">다운로드버전</option>
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <div class="selected">
+                        <select id="version2" name="version2">
+                            <option id="">업데이트버전</option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+            <tr>
                 <td colspan="2">
                     <div class="button">
                         <button id="down" type="submit">다운로드하기</button>
@@ -76,14 +200,23 @@
                     </div>
                 </td>
             </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="button">
+                        <button id="closeUpdate" type="button">목표버전닫기</button>
+                    </div>
+                </td>
+            </tr>
         </table>
-	</form>
+    </form>
 </body>
 </html>
 @section scripts{
-	<script src="~/Scripts/redmine/redmine.js"></script>
+    <script src="~/Scripts/redmine/redmine.js"></script>
     <script src="~/Scripts/bootstrap-datepicker.js"></script>
     <script src="~/Scripts/bootstrap-datepicker.ko.js"></script>
+    <link ref="stylesheet " href="~/Scripts/redmine/StyleSheet1.css" />
+
     <script>
         $(document).ready(function () {
 
@@ -91,14 +224,18 @@
                 format: 'yyyy-mm-dd',
                 language: 'ko'
             }
-			);
+            );
 
-			$("#versionUp").click(function () {
+            $("#versionUp").click(function () {
                 getVersionCombo();
             });
 
             $("#versionCommit").click(function () {
                 versionCommit();
+            });
+
+            $("#closeUpdate").click(function () {
+                closeUpdate();
             });
         });
     </script>

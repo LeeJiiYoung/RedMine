@@ -239,23 +239,45 @@ namespace RedMine.Controllers
 		{
 			try
 			{
-				HttpContext req = HttpContext.Current;
-				string id = req.Request.Form["id"];
-				string pw = req.Request.Form["pw"];
-				Login(id,pw);
-				
-				string url = "http://redmine.ebizway.co.kr:8081/redmine/versions/566/edit";
-				scraper.Go(url);
-				csrfToken = Regex.Match(scraper.Html, "<meta name=\\\"csrf-token\\\" content=\\\"(?<csrfToken>.*)\\\"").Groups["csrfToken"].Value;
-				HtmlDocument hDoc = new HtmlDocument();
-				hDoc.LoadHtml(scraper.Html);
-				string name = hDoc.DocumentNode.SelectSingleNode("//input[@name='version[name]']").InnerText;
-				string description = hDoc.DocumentNode.SelectSingleNode("//input[@name='version[description]']").InnerText;
-				string effective_date = hDoc.DocumentNode.SelectSingleNode("//input[@name='version[effective_date]']").InnerText;
+				JObject request = new JObject();
+				request = JsonConvert.DeserializeObject<JObject>(data.ToString());
+				string id = request["id"].ToString();
+                string pw = request["pw"].ToString();
+                string version = request["version"].ToString();
+                string version2 = request["version2"].ToString();
+                Login(id, pw);
 
-				url = "http://redmine.ebizway.co.kr:8081/redmine/versions/566";
-				string postData = "";
-				return "";
+                string url = "http://redmine.ebizway.co.kr:8081/redmine/versions/" + version + "/edit";
+                scraper.Go(url);
+                csrfToken = Regex.Match(scraper.Html, "<meta name=\\\"csrf-token\\\" content=\\\"(?<csrfToken>.*)\\\"").Groups["csrfToken"].Value;
+                HtmlDocument hDoc = new HtmlDocument();
+                hDoc.LoadHtml(scraper.Html);
+				string name = hDoc.DocumentNode.SelectSingleNode("//input[@name='version[name]']").Attributes["value"].Value;
+				string description = hDoc.DocumentNode.SelectSingleNode("//input[@name='version[description]']").Attributes["value"].Value;
+				string effective_date = hDoc.DocumentNode.SelectSingleNode("//input[@name='version[effective_date]']").Attributes["value"].Value;
+
+				url = "http://redmine.ebizway.co.kr:8081/redmine/versions/" + version;
+				string postData = "utf8=%E2%9C%93" +
+					"&_method=patch" +
+					"&authenticity_token=" + Uri.EscapeDataString(csrfToken) +
+					"&back_url=http%3A%2F%2Fredmine.ebizway.co.kr%3A8081%2Fredmine%2Fversions%2F" + version +
+					"&version%5Bname%5D=" + Uri.EscapeDataString(name) +
+					"&version%5Bdescription%5D=" + Uri.EscapeDataString(description) +
+					"&version%5Bstatus%5D=closed" +
+					"&version%5Bwiki_page_title%5D=" +
+					"&version%5Beffective_date%5D=" + effective_date +
+					"&version%5Bsharing%5D=none" +
+					"&commit=%EC%A0%80%EC%9E%A5";
+
+				scraper.Go(url, postData);
+				if(scraper.StatusCode == HttpStatusCode.Redirect)
+                {
+					return "완료";
+				}
+                else
+                {
+					return "실패";
+                }
 			}
 			catch (Exception ex)
 			{
@@ -372,13 +394,13 @@ namespace RedMine.Controllers
                 }
                 ids_url += "&issue%5Bfixed_version_id%5D=" + version2;
 
-                //ids_url = HttpUtility.UrlEncode(ids_url);
+                
                 string p = url + ids_url;
 				post += "_method=post"
 					+ "&authenticity_token=" + Uri.EscapeDataString(csrfToken);
                 try
                 {
-					
+					scraper.requestTimeOut = 500000;
                     scraper.Go(p, post);
 					System.Threading.Thread.Sleep(20000);
 					if(scraper.StatusCode == HttpStatusCode.Found)
