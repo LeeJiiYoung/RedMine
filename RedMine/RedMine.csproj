@@ -142,10 +142,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\RedMine.cs" />
-    <Compile Include="obj\Debug\.NETFramework,Version=v4.6.1.AssemblyAttributes.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -356,9 +352,6 @@
     <Content Include="Content\bootstrap-datepicker3.standalone.css" />
     <Content Include="Content\bootstrap-datepicker3.standalone.min.css" />
     <Content Include="html\index.html" />
-    <Content Include="obj\Debug\RedMine.csproj.FileListAbsolute.txt" />
-    <Content Include="obj\Debug\RedMine.dll" />
-    <Content Include="obj\Debug\RedMine.pdb" />
     <Content Include="pixel-html\404.html" />
     <Content Include="pixel-html\basic-table.html" />
     <Content Include="pixel-html\blank.html" />
@@ -640,10 +633,6 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="libman.json" />
-    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
-    <Content Include="obj\Debug\RedMine.csproj.CopyComplete" />
-    <Content Include="obj\Debug\RedMine.csproj.CoreCompileInputs.cache" />
-    <Content Include="obj\Debug\RedMine.csprojAssemblyReference.cache" />
     <Content Include="obj\Debug\Tsc.out" />
     <Content Include="obj\Release\RedMine.csproj.CoreCompileInputs.cache" />
     <Content Include="obj\Release\RedMine.csprojAssemblyReference.cache" />
