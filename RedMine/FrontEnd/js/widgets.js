@@ -1,7 +1,7 @@
 $(function() {
   'use strict';
   jQuery('#visitfromworld').vectorMap({
-    map: 'world_mill_en',
+    //map: 'world_mill_en',
     backgroundColor: 'transparent',
     borderColor: '#000',
     borderOpacity: 0,
