@@ -93,3 +93,15 @@ E:\정기업\BizScraper\obj\Debug\BizScraper.csproj.CoreCompileInputs.cache
 E:\정기업\BizScraper\obj\Debug\BizScraper.csproj.CopyComplete
 E:\정기업\BizScraper\obj\Debug\BizScraper.dll
 E:\정기업\BizScraper\obj\Debug\BizScraper.pdb
+C:\0826Project\BizScraper\bin\Debug\BizScraper.dll.config
+C:\0826Project\BizScraper\bin\Debug\BizScraper.dll
+C:\0826Project\BizScraper\bin\Debug\BizScraper.pdb
+C:\0826Project\BizScraper\bin\Debug\Common.Logging.dll
+C:\0826Project\BizScraper\bin\Debug\NLog.dll
+C:\0826Project\BizScraper\bin\Debug\NLog.Telegram.dll
+C:\0826Project\BizScraper\bin\Debug\NLog.xml
+C:\0826Project\BizScraper\obj\Debug\BizScraper.csprojAssemblyReference.cache
+C:\0826Project\BizScraper\obj\Debug\BizScraper.csproj.CoreCompileInputs.cache
+C:\0826Project\BizScraper\obj\Debug\BizScraper.csproj.CopyComplete
+C:\0826Project\BizScraper\obj\Debug\BizScraper.dll
+C:\0826Project\BizScraper\obj\Debug\BizScraper.pdb

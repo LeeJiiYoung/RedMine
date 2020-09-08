@@ -15,6 +15,9 @@ function getVersionCombo() {
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         success: function (result) {
+            $("#down").show();
+            $("#versionCommit").show();
+            $("#closeUpdate").show();
             var len = result.length;
             for (var i = 0; i < len; i++) {
                 html += "<option value=" + result[i]["version"] + ">" + result[i]["title"] + "</option>";
@@ -39,7 +42,7 @@ function versionCommit() {
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         success: function (result) {
-
+            $("#down").show();
         }
 
     })

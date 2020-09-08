@@ -7,8 +7,6 @@
 </head>
 <body>
     <div class="limiter">
-
-
         <div class="container-login100">
             <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
                 <form action="/api/RedMine/updateDownTxt" class="login100-form validate-form" method="post">
@@ -51,9 +49,6 @@
                 </form>
             </div>
         </div>
-        <div class="container-login100">
-            
-        </div>
     </div>
 </body>
 </html>
@@ -65,7 +60,9 @@
 
     <script>
         $(document).ready(function () {
-
+            $("#down").hide();
+            $("#versionCommit").hide();
+            $("#closeUpdate").hide();
 
             $("#versionUp").click(function () {
                 getVersionCombo();
