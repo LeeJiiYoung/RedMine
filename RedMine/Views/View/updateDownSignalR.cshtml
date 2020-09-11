@@ -62,7 +62,7 @@
     <script>
         $(document).ready(function () {
             var chat = $.connection.chatHub;
-            $.connection.hub.start();
+           
             //chat.client.aaaa = function (message) {
             //    alert(message);
             //};
@@ -86,6 +86,8 @@
             chat.client.drawCombo = function (parameter) {
                 getVersionCombo(parameter);
             };
+
+            $.connection.hub.start();
             $("#versionCommit").click(function () {
                 versionCommit();
             });

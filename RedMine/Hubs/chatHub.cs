@@ -11,6 +11,7 @@ using System.Net;
 using HtmlAgilityPack;
 using System.Text.RegularExpressions;
 using Cookie = System.Net.Cookie;
+using System.Threading.Tasks;
 
 namespace RedMine.Hubs
 {
@@ -88,6 +89,27 @@ namespace RedMine.Hubs
                 return ex.Message;
             }
 
+        }
+
+        public override Task OnConnected()
+        {
+           
+
+            return base.OnConnected();
+        }
+
+        public override Task OnDisconnected(bool stopCalled)
+        {
+           
+
+            return base.OnDisconnected(stopCalled);
+        }
+
+        public override Task OnReconnected()
+        {
+      
+
+            return base.OnReconnected();
         }
     }
 }
