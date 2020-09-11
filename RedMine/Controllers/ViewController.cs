@@ -17,5 +17,10 @@ namespace RedMine.Controllers
         {
             return View();
         }
+
+        public ActionResult UpdateDownSignalR()
+        {
+            return View();
+        }
     }
 }
