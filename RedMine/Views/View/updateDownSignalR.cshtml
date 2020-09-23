@@ -7,9 +7,10 @@
 </head>
 <body>
     <div class="limiter">
+
         <div class="container-login100">
             <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
-                <form action="/api/RedMine/updateDownTxt" class="login100-form validate-form" method="post">
+                <form class="login100-form validate-form" method="post">
                     <span class="login100-form-title p-b-33">
                         레드마인 로그인(시그널알)
                     </span>
@@ -38,7 +39,7 @@
                         </select>
                     </div>
                     <div class="container-login100-form-btn m-t-20">
-                        <button id="down" class="login100-form-btn" type="submit">다운로드하기</button>
+                        <button id="down" class="login100-form-btn" type="button">다운로드하기</button>
                     </div>
                     <div class="container-login100-form-btn m-t-20">
                         <button id="versionCommit" class="login100-form-btn" type="button">목표버전넘기기</button>
@@ -46,6 +47,7 @@
                     <div class="container-login100-form-btn m-t-20">
                         <button id="closeUpdate" class="login100-form-btn" type="button">목표버전닫기</button>
                     </div>
+                    <div id="message"></div>
                 </form>
             </div>
         </div>
@@ -62,7 +64,7 @@
     <script>
         $(document).ready(function () {
             var chat = $.connection.chatHub;
-           
+
             //chat.client.aaaa = function (message) {
             //    alert(message);
             //};
@@ -72,7 +74,7 @@
             //    jsonParameters["pw"] = $("#pw").val();
             //    chat.server.getVersionCombo(jsonParameters);
             //}
-            
+
             $("#down").hide();
             $("#versionCommit").hide();
             $("#closeUpdate").hide();
@@ -86,7 +88,13 @@
             chat.client.drawCombo = function (parameter) {
                 getVersionCombo(parameter);
             };
-
+            $("#down").click(function () {
+                var jsonParameters = {};
+                jsonParameters["id"] = $("#id").val();
+                jsonParameters["pw"] = $("#pw").val();
+                jsonParameters["version"] = $("#version").val();
+                chat.server.updateDownTxt(jsonParameters);
+            })
             $.connection.hub.start();
             $("#versionCommit").click(function () {
                 versionCommit();

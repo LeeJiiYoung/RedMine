@@ -5,9 +5,13 @@ function getVersionCombo(result) {
     for (var i = 0; i < len; i++) {
         html += "<option value=" + result[i]["version"] + ">" + result[i]["title"] + "</option>";
     }
-    console.log(result);
+    $("#message").text("로그인 성공...");
     $("#version").html(html);
     $("#version2").html(html);
+
+    $("#down").show();
+    $("#versionCommit").show();
+    $("#closeUpdate").show();
 }
 
 function versionCommit() {
