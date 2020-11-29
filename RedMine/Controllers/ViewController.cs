@@ -22,5 +22,9 @@ namespace RedMine.Controllers
         {
             return View();
         }
+        public ActionResult SellerCollect()
+        {
+            return View();
+        }
     }
 }

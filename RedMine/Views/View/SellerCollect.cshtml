@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title></title>
+</head>
+<body>
+    <div class="limiter">
+
+        <div class="container-login100">
+            <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
+                <form class="login100-form validate-form" method="post">
+                    <span class="login100-form-title p-b-33">
+                        판매자정보 수집
+                    </span>
+
+                    <div class="container-login100-form-btn m-t-20">
+                        <button id="btnCollect" class="login100-form-btn" type="button">판매자정보 수집</button>
+                    </div>
+                    <div class="container-login100-form-btn m-t-20">
+                        <button id="btnStopCollect" class="login100-form-btn" type="button">판매자정보 수집 종료</button>
+                    </div>
+                    <div id="message"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+@section scripts{
+    <script src="../Scripts/redmine/sellercollect.js"></script>
+    <script src="../Scripts/bootstrap.js"></script>
+    <script src="../Scripts/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="~/Scripts/redmine/StyleSheet1.css"></link>
+    <script src="../Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="../signalr/hubs"></script>
+    <script>
+        $(document).ready(function () {
+            var chat = $.connection.chatHub;
+
+            //chat.client.aaaa = function (message) {
+            //    alert(message);
+            //};
+            //function getVersionCombo() {
+            //    var jsonParameters = {};
+            //    jsonParameters["id"] = $("#id").val();
+            //    jsonParameters["pw"] = $("#pw").val();
+            //    chat.server.getVersionCombo(jsonParameters);
+            //}
+
+            $("#btnCollect").click(function () {
+                console.log('Collect Start');
+                chat.server.collect();
+            });
+
+            $("#btnStopCollect").click(function () {
+                console.log('Collect Stop');
+                chat.server.stopCollect();
+            });
+
+            $("#closeUpdate").click(function () {
+                closeUpdate();
+            });
+            $.connection.hub.start();
+            
+        });
+    </script>
+}

@@ -12,6 +12,7 @@ using HtmlAgilityPack;
 using System.Text.RegularExpressions;
 using Cookie = System.Net.Cookie;
 using System.Threading.Tasks;
+using RedMine.Models;
 
 namespace RedMine.Hubs
 {
@@ -19,10 +20,21 @@ namespace RedMine.Hubs
     {
         Scraper scraper = new Scraper();
         string csrfToken = "";
+        static Service service = new Service();
 
         public void hhhh()
         {
             Clients.All.aaaa();
+        }
+
+        public void Collect()
+        {
+            service.GetSellerCollect();
+        }
+
+        public void StopCollect()
+        {
+            service.StopCollect();
         }
 
         public void getVersionCombo(object data)
