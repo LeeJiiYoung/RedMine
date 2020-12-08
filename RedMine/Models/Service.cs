@@ -5,6 +5,10 @@ using System.Linq;
 using System.Web;
 using HtmlAgilityPack;
 using System.Threading;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System.IO;
+using System.Text;
 
 namespace RedMine.Models
 {
@@ -24,15 +28,28 @@ namespace RedMine.Models
         {
             Scraper ShopScraper = new Scraper();
             HtmlDocument sellerInfo = new HtmlDocument();
+            List<string> urlList = new List<string>();
             try
             {
+                string text = File.ReadAllText(@"D:\Source\판매자정보수집.txt");
+                if (!File.Exists(@"D:\Source\판매자정보수집.txt"))
+                {
+                    // Create a file to write to. 
+                    text = "[]";
+                    File.WriteAllText(@"D:\Source\판매자정보수집.txt", text);
+                }
+                text = File.ReadAllText(@"D:\Source\판매자정보수집.txt");
+                text = (text == "") ? "[]" : text;
+                JArray jarr = JsonConvert.DeserializeObject<JArray>(text);
                 if (flag)
                 {
-                    for (int i = page; i < 2; i++)
+                  
+                    for (int i = page; i < 10000; i++)
                     {
                         if (flag)
                         {
-                            scraper.Go("http://browse.gmarket.co.kr/list?category=200000507&k=24&p=" + page);
+                            Thread.Sleep(3000);
+                            scraper.Go("http://browse.gmarket.co.kr/list?category=200000505&k=24&p=" + page);
                             HtmlDocument doc = new HtmlDocument();
                             doc.LoadHtml(scraper.Html);
                             HtmlNodeCollection hnc = null;
@@ -42,31 +59,69 @@ namespace RedMine.Models
                             {
                                 if (flag)
                                 {
+                                    if (urlList.AsEnumerable().Where(r => r == hn.Attributes["href"].Value).Count() > 0)
+                                        continue;
+                                    urlList.Add(hn.Attributes["href"].Value);
                                     Thread.Sleep(2000);
                                     string url = hn.Attributes["href"].Value;
+                                    ShopScraper.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
                                     ShopScraper.Go(url);
                                     sellerInfo.LoadHtml(ShopScraper.Html);
                                     HtmlNodeCollection SellerInfo = sellerInfo.DocumentNode.SelectNodes("//div[@class='seller_info_box']/dl/dd");
-                                    //상호
-                                    string compnm = SellerInfo[0].InnerText;
+                                    HtmlNodeCollection SellerInfo2 = sellerInfo.DocumentNode.SelectNodes("//div[@class='seller_info_box']/dl/dt");
 
-                                    //대표자
-                                    string nm = (string)SellerInfo[1].InnerText;
+                                    string compnm = "";
+                                    string nm = "";
+                                    string tel = "";
+                                    string email = "";
+                                    string compNo = "";
+                                    string adress = "";
+                                    string sopmalurl = url;
+                                    if (SellerInfo2 == null) continue;
+                                    for (int j=0; j<SellerInfo2.Count; j++)
+                                    {
+                                        switch (SellerInfo2[j].InnerText)
+                                        {
+                                            case "상호":
+                                                compnm = SellerInfo[j].InnerText;
+                                                break;
+                                            case "대표자":
+                                                nm = (string)SellerInfo[j].InnerText;
+                                                break;
+                                            case "전화번호":
+                                                tel = (string)SellerInfo[j].InnerText;
+                                                break;
+                                            case "이메일":
+                                                email = (string)SellerInfo[j].InnerText;
+                                                break;
+                                            case "사업자번호":
+                                                compNo = (string)SellerInfo[j].InnerText;
+                                                break;
+                                            case "영업소재지":
+                                                adress = (string)SellerInfo[j].InnerText;
+                                                break;
+                                        }
+                                    }
 
-                                    // 전화번호
-                                    string tel = (string)SellerInfo[2].InnerText;
+                                    JObject jobj = new JObject();
+                                    jobj["bizrno"] = compNo;
+                                    jobj["cmpny_nm"] = compnm;
+                                    jobj["rprsntv_nm"] = nm;
+                                    jobj["cmpny_adres"] = adress;
+                                    jobj["telno"] = tel;
+                                    jobj["email_adres"] = email;
+                                    jobj["bsnm_regist_telno"] = compNo;
+                                    jobj["sopmal_url"] = url;
+                                    jobj["sopmal_grade"] = "ZZZZZZ";
+                                    jobj["sopmal_ctgry"] = "홈>>여성의류>>원피스";
+                                    jarr.Add(jobj);
+                                    string postData = "";
+                                    postData = JsonConvert.SerializeObject(jobj);
+                                    url = "http://dev.ebizway.co.kr:8082/api/BizesmApi/BatchTB_SELLER";
+                                    ShopScraper.ContentType = "application/json";
+                                    ShopScraper.Go(url, postData);
+                                    //File.WriteAllText(@"D:\Source\판매자정보수집.txt", jarr.ToString());
 
-                                    // 팩스
-                                    string fax = (string)SellerInfo[3].InnerText;
-
-                                    // 메일
-                                    string email = (string)SellerInfo[4].InnerText;
-
-                                    // 사업자번호
-                                    string compNo = (string)SellerInfo[5].InnerText;
-
-                                    // 주소
-                                    string adress = (string)SellerInfo[6].InnerText;
                                 }
                                 else { return; }
                             }

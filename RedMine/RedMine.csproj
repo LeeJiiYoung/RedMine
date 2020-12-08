@@ -181,7 +181,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Hubs\chatHub.cs" />
+    <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Hubs\Startup.cs" />
     <Compile Include="MainDbContext.cs" />
     <Compile Include="Models\Master_seq.cs" />

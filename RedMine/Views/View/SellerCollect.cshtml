@@ -28,26 +28,18 @@
     </div>
 </body>
 </html>
+
 @section scripts{
     <script src="../Scripts/redmine/sellercollect.js"></script>
     <script src="../Scripts/bootstrap.js"></script>
     <script src="../Scripts/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="~/Scripts/redmine/StyleSheet1.css"></link>
+    <link rel="stylesheet" href="~/Scripts/redmine/StyleSheet1.css" /></link>
     <script src="../Scripts/jquery.signalR-2.2.2.min.js"></script>
-    <script src="../signalr/hubs"></script>
+    <script src="../signalR/hubs"></script>
+
     <script>
         $(document).ready(function () {
             var chat = $.connection.chatHub;
-
-            //chat.client.aaaa = function (message) {
-            //    alert(message);
-            //};
-            //function getVersionCombo() {
-            //    var jsonParameters = {};
-            //    jsonParameters["id"] = $("#id").val();
-            //    jsonParameters["pw"] = $("#pw").val();
-            //    chat.server.getVersionCombo(jsonParameters);
-            //}
 
             $("#btnCollect").click(function () {
                 console.log('Collect Start');
@@ -56,14 +48,13 @@
 
             $("#btnStopCollect").click(function () {
                 console.log('Collect Stop');
-                chat.server.stopCollect();
+                $.connection.hub.stop();
             });
 
-            $("#closeUpdate").click(function () {
-                closeUpdate();
-            });
-            $.connection.hub.start();
-            
+            var connection = $.connection.hub;
+            connection.qs = { 'test': 'test' };
+            connection.start({ transport: ['serverSentEvents'] }).done(function () { });
+
         });
     </script>
 }

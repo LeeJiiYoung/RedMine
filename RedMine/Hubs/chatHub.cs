@@ -16,7 +16,7 @@ using RedMine.Models;
 
 namespace RedMine.Hubs
 {
-    public class chatHub : Hub
+    public class ChatHub : Hub
     {
         Scraper scraper = new Scraper();
         string csrfToken = "";
